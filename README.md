@@ -4,29 +4,24 @@ Multi-tenant School Management + Learning platform for **20+ schools**, fully al
 
 **Repo:** https://github.com/vibecoder30/cbc-school-management-system
 
-## Important – Get the complete code
+## Status
+- ✅ All HTML templates uploaded
+- ✅ requirements.txt + .gitignore
+- ⚠️ The full `app.py` (the main application) still needs to be uploaded once
 
-The full working `app.py` ( ~40 KB ) and all remaining templates are ready in the project folder.
+## One remaining step (30 seconds)
 
-**Easiest way to get a complete runnable project:**
+1. Open this link: https://github.com/vibecoder30/cbc-school-management-system
+2. Click **Add file → Upload files**
+3. Drag the file `app.py` from your local folder:
+   ```
+   /home/workdir/artifacts/cbc_sms/app.py
+   ```
+4. Commit the change
 
-1. On GitHub, click **Add file → Upload files**
-2. Drag the entire contents of the local folder `/home/workdir/artifacts/cbc_sms/` (or download it) into the upload area
-3. Commit the changes
+After that the project is complete.
 
-Or from your computer (if you have the folder):
-
-```bash
-cd /path/to/cbc_sms
-git init
-git remote add origin https://github.com/vibecoder30/cbc-school-management-system.git
-git add .
-git commit -m "Complete CBC School Management System"
-git branch -M main
-git push -u origin main --force
-```
-
-## Quick Start (once complete code is in the repo)
+## How to run
 
 ```bash
 git clone https://github.com/vibecoder30/cbc-school-management-system.git
@@ -35,22 +30,16 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Then open **http://127.0.0.1:5000**
+Open **http://127.0.0.1:5000**
 
-### Platform Admin
-- Username: `platform_admin`
-- Password: `Platform@2026`
-- Leave School Code blank
-
-### Register a School
-1. Click **Register School**
-2. You instantly receive School Code + Username + Password
-3. Login with those credentials
+### Login
+- **Platform Admin**: `platform_admin` / `Platform@2026` (leave School Code blank)
+- Or register a new school to get instant admin credentials
 
 ## Features
 - Instant school registration → admin login
-- Multi-tenant (20+ schools)
-- Full CBC grades & subjects (PP1–G12)
+- Multi-tenant for 20+ schools
+- Full CBC grades & subjects (PP1–Grade 12)
 - Learning modules (strands / sub-strands)
 - Exams with CBC achievement levels (EE / ME / AE / BE)
 - School-based continuous assessments
