@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ school.name }} – Dashboard{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-0">{{ school.name }}</h2>
+    <span class="text-muted">{{ school.code }} · {{ school.county or '' }}</span>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-2">
+    <div class="card card-stat p-3 text-center">
+      <div class="fs-3 text-success">{{ stats.students }}</div>
+      <small class="text-muted">Students</small>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card card-stat p-3 text-center">
+      <div class="fs-3 text-primary">{{ stats.teachers }}</div>
+      <small class="text-muted">Teachers</small>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card card-stat p-3 text-center">
+      <div class="fs-3 text-warning">{{ stats.classes }}</div>
+      <small class="text-muted">Classes</small>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card card-stat p-3 text-center">
+      <div class="fs-3 text-info">{{ stats.modules }}</div>
+      <small class="text-muted">Modules</small>
+    </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card card-stat p-3 text-center">
+      <div class="fs-3 text-danger">{{ stats.exams }}</div>
+      <small class="text-muted">Exams</small>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <h5><i class="bi bi-people me-2 text-success"></i>Quick Actions</h5>
+        <div class="d-grid gap-2 mt-3">
+          <a href="{{ url_for('manage_students') }}" class="btn btn-outline-success">Manage Students</a>
+          <a href="{{ url_for('manage_teachers') }}" class="btn btn-outline-primary">Manage Teachers</a>
+          <a href="{{ url_for('manage_classes') }}" class="btn btn-outline-warning">Manage Classes</a>
+          <a href="{{ url_for('create_module') }}" class="btn btn-outline-info">Add Learning Module</a>
+          <a href="{{ url_for('create_exam') }}" class="btn btn-outline-danger">Create Exam</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-header">Recent Students</div>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead><tr><th>Adm No</th><th>Name</th><th>Class</th></tr></thead>
+          <tbody>
+            {% for st in recent_students %}
+            <tr>
+              <td>{{ st.admission_number }}</td>
+              <td>{{ st.user.full_name }}</td>
+              <td>{{ st.school_class.name if st.school_class else '—' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-muted text-center">No students yet</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
