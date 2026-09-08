@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-success text-white">Add Student</div>
+      <div class="card-body">
+        <form method="post">
+          <div class="mb-2">
+            <label class="form-label">First Name *</label>
+            <input name="first_name" class="form-control" required>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Last Name</label>
+            <input name="last_name" class="form-control">
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Admission Number *</label>
+            <input name="admission_number" class="form-control" required>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Class</label>
+            <select name="class_id" class="form-select">
+              <option value="">— Select —</option>
+              {% for c in classes %}
+              <option value="{{ c.id }}">{{ c.name }} ({{ c.grade_level.name }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Gender</label>
+            <select name="gender" class="form-select">
+              <option value="">—</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Parent / Guardian</label>
+            <input name="parent_name" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Parent Phone</label>
+            <input name="parent_phone" class="form-control">
+          </div>
+          <button class="btn btn-success w-100">Create Student + Credentials</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header">Students ({{ students|length }})</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr><th>Adm No</th><th>Name</th><th>Username</th><th>Class</th><th>Parent</th></tr>
+          </thead>
+          <tbody>
+            {% for s in students %}
+            <tr>
+              <td>{{ s.admission_number }}</td>
+              <td>{{ s.user.full_name }}</td>
+              <td><code>{{ s.user.username }}</code></td>
+              <td>{{ s.school_class.name if s.school_class else '—' }}</td>
+              <td>{{ s.parent_name or '—' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center text-muted">No students yet</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
