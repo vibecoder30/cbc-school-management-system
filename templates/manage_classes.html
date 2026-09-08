@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Classes{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-warning">Add Class</div>
+      <div class="card-body">
+        <form method="post">
+          <div class="mb-2">
+            <label class="form-label">Class Name *</label>
+            <input name="name" class="form-control" required placeholder="e.g. Grade 4 Blue">
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Grade Level *</label>
+            <select name="grade_level_id" class="form-select" required>
+              {% for g in grades %}
+              <option value="{{ g.id }}">{{ g.name }} ({{ g.stage }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Academic Year</label>
+            <input name="academic_year" class="form-control" value="2026">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Class Teacher</label>
+            <select name="class_teacher_id" class="form-select">
+              <option value="">— None —</option>
+              {% for t in teachers %}
+              <option value="{{ t.id }}">{{ t.user.full_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button class="btn btn-warning w-100">Create Class</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header">Classes ({{ classes|length }})</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr><th>Name</th><th>Grade</th><th>Stage</th><th>Year</th><th>Students</th></tr>
+          </thead>
+          <tbody>
+            {% for c in classes %}
+            <tr>
+              <td>{{ c.name }}</td>
+              <td>{{ c.grade_level.name }}</td>
+              <td>{{ c.grade_level.stage }}</td>
+              <td>{{ c.academic_year }}</td>
+              <td>{{ c.students.count() }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center text-muted">No classes yet</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

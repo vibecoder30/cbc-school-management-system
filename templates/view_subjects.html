@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}CBC Subjects{% endblock %}
+{% block content %}
+<h3 class="mb-3">CBC Subjects – {{ school.name }}</h3>
+{% set stages = subjects|groupby('stage') %}
+{% for stage, items in stages %}
+<div class="card shadow-sm mb-3">
+  <div class="card-header bg-success text-white">{{ stage }}</div>
+  <div class="card-body">
+    <div class="row">
+      {% for s in items %}
+      <div class="col-md-4 mb-2">
+        <span class="badge {% if s.is_core %}bg-primary{% else %}bg-secondary{% endif %} me-1">{{ s.code }}</span>
+        {{ s.name }} {% if s.is_core %}<small class="text-muted">(Core)</small>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
