@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Take Exam – {{ exam.title }}{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow">
+      <div class="card-header bg-success text-white">
+        <h4 class="mb-0">{{ exam.title }}</h4>
+        <small>{{ exam.subject.name }} · {{ exam.grade_level.name }} · {{ exam.duration_minutes }} minutes · {{ exam.total_marks }} marks</small>
+      </div>
+      <div class="card-body">
+        {% if exam.instructions %}
+        <div class="alert alert-info">{{ exam.instructions }}</div>
+        {% endif %}
+        <form method="post">
+          {% for q in questions %}
+          <div class="mb-4 p-3 border rounded">
+            <p class="fw-bold">Q{{ loop.index }}. {{ q.question_text }} <span class="badge bg-secondary">{{ q.marks }} mk</span></p>
+            {% if q.question_type == 'mcq' and q.options %}
+              {% for line in q.options.split('\n') %}
+                {% if line.strip() %}
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="q_{{ q.id }}" value="{{ line.strip()[0] if line.strip() else '' }}" id="q{{ q.id }}_{{ loop.index }}">
+                  <label class="form-check-label" for="q{{ q.id }}_{{ loop.index }}">{{ line.strip() }}</label>
+                </div>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <textarea name="q_{{ q.id }}" class="form-control" rows="3" placeholder="Your answer..."></textarea>
+            {% endif %}
+          </div>
+          {% endfor %}
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success btn-lg" onclick="return confirm('Submit exam? You cannot change answers afterwards.')">
+              Submit Exam
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

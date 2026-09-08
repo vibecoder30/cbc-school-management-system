@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}School-Based Assessments{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-primary text-white">Record Assessment (CBC)</div>
+      <div class="card-body">
+        <form method="post">
+          <div class="mb-2">
+            <label class="form-label">Student *</label>
+            <select name="student_id" class="form-select" required>
+              {% for s in students %}
+              <option value="{{ s.id }}">{{ s.user.full_name }} ({{ s.admission_number }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Subject *</label>
+            <select name="subject_id" class="form-select" required>
+              {% for s in subjects %}<option value="{{ s.id }}">{{ s.name }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Grade</label>
+            <select name="grade_level_id" class="form-select">
+              {% for g in grades %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Term</label>
+            <select name="term" class="form-select">
+              <option>Term 1</option><option>Term 2</option><option>Term 3</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Achievement Level *</label>
+            <select name="achievement_level" class="form-select" required>
+              {% for code, (lo, hi, desc) in levels.items() %}
+              <option value="{{ code }}">{{ code }} – {{ desc }} ({{ lo }}–{{ hi }}%)</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Score (optional)</label>
+            <input type="number" step="0.1" name="score" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Comments</label>
+            <textarea name="comments" class="form-control" rows="2"></textarea>
+          </div>
+          <button class="btn btn-primary w-100">Save Assessment</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header">Recent Assessment Records</div>
+      <div class="table-responsive">
+        <table class="table table-sm table-hover mb-0">
+          <thead class="table-light">
+            <tr><th>Student</th><th>Subject</th><th>Term</th><th>Level</th><th>Score</th><th>Date</th></tr>
+          </thead>
+          <tbody>
+            {% for r in records %}
+            <tr>
+              <td>{{ r.student.user.full_name }}</td>
+              <td>{{ r.subject.name }}</td>
+              <td>{{ r.term }}</td>
+              <td><span class="badge
+                {% if r.achievement_level.startswith('EE') %}bg-success
+                {% elif r.achievement_level.startswith('ME') %}bg-primary
+                {% elif r.achievement_level.startswith('AE') %}bg-warning text-dark
+                {% else %}bg-danger{% endif %}">{{ r.achievement_level }}</span></td>
+              <td>{{ r.score or '—' }}</td>
+              <td>{{ r.recorded_at.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-center text-muted">No records yet</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
