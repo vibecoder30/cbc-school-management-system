@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ module.title }}{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('learning_hub') }}">Learning Hub</a></li>
+    <li class="breadcrumb-item active">{{ module.title }}</li>
+  </ol>
+</nav>
+<div class="card shadow-sm">
+  <div class="card-header">
+    <span class="badge bg-success">{{ module.grade_level.name }}</span>
+    <span class="badge bg-primary">{{ module.subject.name }}</span>
+    <h3 class="mt-2 mb-0">{{ module.title }}</h3>
+  </div>
+  <div class="card-body">
+    {% if module.strand or module.sub_strand %}
+    <p>
+      {% if module.strand %}<strong>Strand:</strong> {{ module.strand }} · {% endif %}
+      {% if module.sub_strand %}<strong>Sub-strand:</strong> {{ module.sub_strand }}{% endif %}
+    </p>
+    {% endif %}
+    {% if module.learning_outcomes %}
+    <div class="alert alert-light border">
+      <strong>Learning Outcomes</strong><br>
+      {{ module.learning_outcomes|replace('\n','<br>')|safe }}
+    </div>
+    {% endif %}
+    <div class="content mt-3">
+      {{ module.content|replace('\n','<br>')|safe }}
+    </div>
+  </div>
+</div>
+{% endblock %}

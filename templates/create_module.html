@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Create Learning Module{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow">
+      <div class="card-header bg-info text-white">New CBC Learning Module</div>
+      <div class="card-body">
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">Title *</label>
+            <input name="title" class="form-control" required placeholder="e.g. Numbers – Place Value">
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Subject *</label>
+              <select name="subject_id" class="form-select" required>
+                {% for s in subjects %}
+                <option value="{{ s.id }}">{{ s.name }} ({{ s.stage }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Grade *</label>
+              <select name="grade_level_id" class="form-select" required>
+                {% for g in grades %}
+                <option value="{{ g.id }}">{{ g.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Strand</label>
+              <input name="strand" class="form-control" placeholder="e.g. Numbers">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Sub-strand</label>
+              <input name="sub_strand" class="form-control" placeholder="e.g. Place Value">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Learning Outcomes</label>
+            <textarea name="learning_outcomes" class="form-control" rows="2" placeholder="By the end of this module the learner should be able to..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Content</label>
+            <textarea name="content" class="form-control" rows="8" placeholder="Lesson content, activities, notes..."></textarea>
+          </div>
+          <button class="btn btn-info">Publish Module</button>
+          <a href="{{ url_for('learning_hub') }}" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
