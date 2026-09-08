@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Create Exam{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card shadow">
+      <div class="card-header bg-danger text-white">Create New Exam</div>
+      <div class="card-body">
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">Title *</label>
+            <input name="title" class="form-control" required placeholder="e.g. Grade 6 Mathematics – Term 1 CAT">
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Subject *</label>
+              <select name="subject_id" class="form-select" required>
+                {% for s in subjects %}<option value="{{ s.id }}">{{ s.name }}</option>{% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Grade *</label>
+              <select name="grade_level_id" class="form-select" required>
+                {% for g in grades %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Type</label>
+              <select name="exam_type" class="form-select">
+                <option value="formative">Formative (SBA)</option>
+                <option value="summative">Summative</option>
+                <option value="national_prep">National Prep (KPSEA/KJSEA)</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Total Marks</label>
+              <input type="number" name="total_marks" class="form-control" value="100">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Duration (min)</label>
+              <input type="number" name="duration_minutes" class="form-control" value="60">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Instructions</label>
+            <textarea name="instructions" class="form-control" rows="2"></textarea>
+          </div>
+          <button class="btn btn-danger">Create & Add Questions</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

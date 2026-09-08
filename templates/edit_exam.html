@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Edit Exam – {{ exam.title }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <div>
+    <h3>{{ exam.title }}</h3>
+    <span class="badge bg-{{ 'success' if exam.is_published else 'secondary' }}">{{ 'Published' if exam.is_published else 'Draft' }}</span>
+    <span class="text-muted">{{ exam.subject.name }} · {{ exam.grade_level.name }}</span>
+  </div>
+  {% if not exam.is_published %}
+  <form method="post" class="d-inline">
+    <input type="hidden" name="action" value="publish">
+    <button class="btn btn-success">Publish to Students</button>
+  </form>
+  {% endif %}
+</div>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="card shadow-sm mb-3">
+      <div class="card-header">Add Question</div>
+      <div class="card-body">
+        <form method="post">
+          <input type="hidden" name="action" value="add_question">
+          <div class="mb-2">
+            <label class="form-label">Question *</label>
+            <textarea name="question_text" class="form-control" rows="2" required></textarea>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Type</label>
+            <select name="question_type" class="form-select">
+              <option value="mcq">Multiple Choice</option>
+              <option value="short">Short Answer</option>
+              <option value="essay">Essay</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Options (MCQ – one per line)</label>
+            <textarea name="options" class="form-control" rows="3" placeholder="A) Option 1&#10;B) Option 2&#10;C) Option 3"></textarea>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Correct Answer (for auto-marking MCQ)</label>
+            <input name="correct_answer" class="form-control" placeholder="e.g. A">
+          </div>
+          <div class="row">
+            <div class="col-6 mb-2">
+              <label class="form-label">Marks</label>
+              <input type="number" name="marks" class="form-control" value="1">
+            </div>
+            <div class="col-6 mb-2">
+              <label class="form-label">Competency</label>
+              <input name="competency_focus" class="form-control" placeholder="Critical thinking">
+            </div>
+          </div>
+          <button class="btn btn-primary w-100">Add Question</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-header">Questions ({{ questions|length }})</div>
+      <ul class="list-group list-group-flush">
+        {% for q in questions %}
+        <li class="list-group-item">
+          <strong>Q{{ loop.index }}.</strong> {{ q.question_text }}
+          <span class="badge bg-secondary">{{ q.marks }} mk</span>
+          <span class="badge bg-info text-dark">{{ q.question_type }}</span>
+          {% if q.competency_focus %}<small class="text-muted"> · {{ q.competency_focus }}</small>{% endif %}
+          {% if q.options %}<pre class="small mt-1 mb-0 text-muted">{{ q.options }}</pre>{% endif %}
+        </li>
+        {% else %}
+        <li class="list-group-item text-muted">No questions yet. Add some on the left.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
