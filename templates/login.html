@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Login – CBC SMS{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow border-0">
+      <div class="card-header bg-success text-white text-center">
+        <h4 class="mb-0"><i class="bi bi-shield-lock me-2"></i>Login</h4>
+      </div>
+      <div class="card-body p-4">
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">School Code</label>
+            <input type="text" name="school_code" class="form-control text-uppercase" placeholder="e.g. SCH001" autocomplete="off">
+            <div class="form-text">Leave blank only for Platform Admin.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required autofocus>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-cbc btn-lg">Login</button>
+          </div>
+        </form>
+        <hr>
+        <p class="text-center small mb-0">
+          New school? <a href="{{ url_for('register_school') }}">Register here</a> to get instant credentials.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

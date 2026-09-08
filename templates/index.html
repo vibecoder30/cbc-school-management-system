@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}CBC School Management System{% endblock %}
+{% block content %}
+<div class="row align-items-center min-vh-75 py-5">
+  <div class="col-lg-6">
+    <h1 class="display-5 fw-bold text-success mb-3">CBC Integrated School Management</h1>
+    <p class="lead text-muted">
+      One platform for up to 20+ schools. Register your school and receive admin login credentials instantly.
+      Fully aligned to Kenya’s Competency-Based Curriculum with integrated learning modules and competency assessments.
+    </p>
+    <div class="d-flex gap-3 mt-4">
+      <a href="{{ url_for('register_school') }}" class="btn btn-cbc btn-lg px-4">
+        <i class="bi bi-building-add me-2"></i>Register School
+      </a>
+      <a href="{{ url_for('login') }}" class="btn btn-outline-success btn-lg px-4">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="row g-3">
+      <div class="col-6">
+        <div class="card card-stat p-3 h-100">
+          <i class="bi bi-people-fill text-success fs-2"></i>
+          <h5 class="mt-2">Multi-tenant</h5>
+          <p class="small text-muted mb-0">Isolated data per school. Scale to 20+ institutions from one deployment.</p>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card card-stat p-3 h-100">
+          <i class="bi bi-lightning-charge-fill text-warning fs-2"></i>
+          <h5 class="mt-2">Instant Onboarding</h5>
+          <p class="small text-muted mb-0">Register → get school code + admin username & password immediately.</p>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card card-stat p-3 h-100">
+          <i class="bi bi-journal-richtext text-primary fs-2"></i>
+          <h5 class="mt-2">CBC Learning</h5>
+          <p class="small text-muted mb-0">Strands, sub-strands, learning outcomes for PP1–Grade 12.</p>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card card-stat p-3 h-100">
+          <i class="bi bi-clipboard2-check text-danger fs-2"></i>
+          <h5 class="mt-2">Competency Exams</h5>
+          <p class="small text-muted mb-0">Formative & summative with EE / ME / AE / BE achievement levels.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h4 class="text-success">CBC Structure Supported</h4>
+        <div class="row text-center mt-3">
+          <div class="col"><span class="badge bg-success fs-6">Pre-Primary<br>PP1 – PP2</span></div>
+          <div class="col"><span class="badge bg-primary fs-6">Lower Primary<br>G1 – G3</span></div>
+          <div class="col"><span class="badge bg-info text-dark fs-6">Upper Primary<br>G4 – G6</span></div>
+          <div class="col"><span class="badge bg-warning text-dark fs-6">Junior Secondary<br>G7 – G9</span></div>
+          <div class="col"><span class="badge bg-secondary fs-6">Senior Secondary<br>G10 – G12</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
