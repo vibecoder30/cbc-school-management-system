@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}CBC School Management System{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --cbc-green: #0d6e3f;
+      --cbc-gold: #c9a227;
+      --cbc-dark: #1a1a2e;
+    }
+    body { background: #f4f7f5; min-height: 100vh; }
+    .navbar-cbc { background: linear-gradient(135deg, var(--cbc-dark), var(--cbc-green)); }
+    .btn-cbc { background: var(--cbc-green); color: #fff; border: none; }
+    .btn-cbc:hover { background: #0a5a33; color: #fff; }
+    .card-stat { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    .badge-ee { background: #198754; }
+    .badge-me { background: #0d6efd; }
+    .badge-ae { background: #fd7e14; }
+    .badge-be { background: #dc3545; }
+    .sidebar { min-height: calc(100vh - 56px); background: #fff; border-right: 1px solid #e9ecef; }
+    .sidebar .nav-link { color: #333; border-radius: 8px; margin: 2px 8px; }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active { background: #e8f5e9; color: var(--cbc-green); }
+    footer { background: var(--cbc-dark); color: #aaa; font-size: .85rem; }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-cbc">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+        <i class="bi bi-mortarboard-fill me-1"></i> CBC SMS
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav me-auto">
+          {% if current_user.is_authenticated %}
+            {% if current_user.__class__.__name__ == 'PlatformAdmin' %}
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('platform_dashboard') }}">Platform</a></li>
+            {% else %}
+              {% if current_user.role == 'school_admin' %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('school_dashboard') }}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('manage_students') }}">Students</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('manage_teachers') }}">Teachers</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('manage_classes') }}">Classes</a></li>
+              {% elif current_user.role == 'teacher' %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('teacher_dashboard') }}">Dashboard</a></li>
+              {% elif current_user.role == 'student' %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('student_dashboard') }}">Dashboard</a></li>
+              {% endif %}
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('learning_hub') }}">Learning</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('exams_list') }}">Exams</a></li>
+              {% if current_user.role in ['school_admin','teacher'] %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('assessments') }}">Assessments</a></li>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+              <span class="nav-link text-white-50">
+                {% if current_user.__class__.__name__ == 'PlatformAdmin' %}
+                  Platform Admin
+                {% else %}
+                  {{ current_user.full_name }} ({{ current_user.role }})
+                  {% if current_user.school %} · {{ current_user.school.code }}{% endif %}
+                {% endif %}
+              </span>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+            <li class="nav-item"><a class="nav-link btn btn-warning btn-sm text-dark ms-2" href="{{ url_for('register_school') }}">Register School</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-fluid py-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mt-auto py-3 text-center">
+    <div class="container">
+      CBC Integrated School Management System · Competency-Based Curriculum (Kenya 2-6-3-3-3) · Multi-tenant for 20+ schools
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
